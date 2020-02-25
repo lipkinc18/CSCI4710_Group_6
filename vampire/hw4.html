@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script>
+        var classmate_data = [
+            {
+                'name': 'John',
+                'shadow': 'no',
+                'galic': 'no',
+                'complexion': 'pale'
+            },
+            {
+                'name': 'Lee',
+                'shadow': 'yes',
+                'galic': 'no',
+                'complexion': 'pale'
+            },
+            {
+                'name': 'Emma',
+                'shadow': 'no',
+                'galic': 'yes',
+                'complexion': 'brown'
+            },
+            {
+                'name': 'Ava',
+                'shadow': 'yes',
+                'galic': 'yes',
+                'complexion': 'olive '
+            },
+            {
+                'name': 'Alex',
+                'shadow': 'no',
+                'galic': 'no',
+                'complexion': 'brown'
+            },
+        ];
+        console.log(classmate_data[0]);
+        
+        for(var i = 0; i <= classmate_data.length -1; i++){
+            classmate_data[i].vampirism = '';
+        }
+
+        for (var i = 0; i <= classmate_data.length - 1; i++) {
+            var count;
+            if (classmate_data[i]['shadow'] == 'no') {
+                count += 4;
+            }
+            
+            if (classmate_data[i]['galic'] == 'no') {
+                count += 3;
+            }
+            
+            if (classmate_data[i]['complextion'] == 'pale') {
+                count += 3;
+            }
+            console.log(count);
+            if (count > 6) {
+                classmate_data[i].vampirism = 'yes';
+                count = 0;
+            } else {
+                classmate_data[i].vampirism = 'no';
+                count = 0;
+            }
+
+            console.log(classmate_data[i]['name']);
+            console.log(classmate_data[i]['vampirism']);
+        }
+
+    </script>
+</head>
+
+</html>
