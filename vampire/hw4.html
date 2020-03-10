@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<html lang="en">
+<head>
+	<title>Homework4</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="random_vampire.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+	
+	
+	<script>
+  <script type="text/javascript">
+	  // Have to change to 
+    function display_chosen_option() {
+      var x = document.getElementById("mySelect").selectedIndex;
+	  var y = document.getElementById("mySelect").options;
+		window.alert("index: " + y[x].index +" is " + y[x].text);
+    }
+
+	</script>
+	
+	<script type="text/javascript">
+    function output_user_info() {
+		//have to change to input into table
+	  var user_name_str = "The user is named: " + document.getElementById('first_name').value;
+	  var sex;
+	  if(document.getElementById('male_radio').checked)
+		  {
+			 sex = " User is male";
+		  }
+	  else{
+		  sex = "user is female";
+	  }
+	  document.write(user_name_str + sex);
+    }
+
+	</script>
+	<script>
+		//	Threshold based:
+        var classmate_data = [
+            {
+                'name': 'John',
+                'shadow': 'no',
+                'galic': 'no',
+                'complexion': 'pale'
+            },
+            {
+                'name': 'Lee',
+                'shadow': 'yes',
+                'galic': 'no',
+                'complexion': 'pale'
+            },
+            {
+                'name': 'Emma',
+                'shadow': 'no',
+                'galic': 'yes',
+                'complexion': 'brown'
+            },
+            {
+                'name': 'Ava',
+                'shadow': 'yes',
+                'galic': 'yes',
+                'complexion': 'olive '
+            },
+            {
+                'name': 'Alex',
+                'shadow': 'no',
+                'galic': 'no',
+                'complexion': 'brown'
+            },
+        ];
+        console.log(classmate_data[0]);
+        
+        for(var i = 0; i <= classmate_data.length -1; i++){
+            classmate_data[i].vampirism = '';
+        }
+
+        for (var i = 0; i <= classmate_data.length - 1; i++) {
+            var count = 0;
+            if (classmate_data[i]['shadow'] == 'no') {
+                count += 4;
+            }
+            
+            if (classmate_data[i]['galic'] == 'no') {
+                count += 3;
+            }
+            
+            if (classmate_data[i]['complextion'] == 'pale') {
+                count += 3;
+            }
+            console.log(count);
+            if (count > 6) {
+                classmate_data[i].vampirism = 'yes';
+                count = 0;
+            } else {
+                classmate_data[i].vampirism = 'no';
+                count = 0;
+            }
+
+            console.log(classmate_data[i]['name']);
+            console.log(classmate_data[i]['vampirism']);
+        }
+		// Load the Visualization API and the corechart package.
+    google.charts.load('current', {'packages':['corechart']});
+
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart);
+    
+    // Callback that creates and populates a data table,
+    // instantiates the pie chart, passes in the data and
+    // draws it.
+    function drawChart() {
+      var data = new google.visualization.DataTable();
+      // classmate_data_processing(classmate_data, data);
+      classmate_data_processing(data);
+
+  
+      // Set chart options
+      var options = {'title':'How many vampires in the class?',
+                     'width':400,
+                     'height':300};
+
+      // Instantiate and draw our chart, passing in some options.
+      var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+    }
+
+    // model of MVC
+    // function classmate_data_processing(input_data, result_data){
+    function classmate_data_processing(result_data){
+      // this function process classmate data and create data table
+      var num_human = 0;
+      var num_vampire = 0;
+      for (var i =  0; i <= classmate_data.length - 1; i++) {
+      // for (var i =  0; i <= input_data.length - 1; i++) {
+        // logic based on shadow 
+        if(classmate_data[i]['shadow'] == 'no'){
+        // if(input_data[i]['shadow'] == 'no'){
+          num_vampire ++;
+        }
+        else{
+          num_human ++;
+        }
+      }
+      // Create the data table.
+      result_data.addColumn('string', 'Element');
+      result_data.addColumn('number', 'Count');
+      result_data.addRows([     
+        ['Human', num_human],
+        ['Vampire', num_vampire]
+      ]);
+
+    }
+
+   
+	</script>
+
+</head>
+	
+<body>
+<div class="container">
+  <h2>Form control: input</h2>
+  <form>
+    <div class="form-row">
+      <!-- md is short for Medium, >= 768 px -->
+      <div class="form-group col-md-4">
+        <label for="first_name">Frist Name</label>
+        <!-- possible types:  text, password, datetime, datetime-local, date, month, time, week, number, email, url, search, tel, and color. -->
+        <input type="text" class="form-control" id="first_name" placeholder="Frist Name">
+        <!-- <input type="time" class="form-control" id="first_name" placeholder="Frist Name"> -->
+        <!-- <input type="color" class="form-control" id="first_name" placeholder="Frist Name"> -->
+      </div>
+
+      <!-- The .form-group class is the easiest way to add some structure to forms. It provides a flexible class that encourages proper grouping of labels, controls, optional help text, and form validation messaging. -->
+      <div class="form-group col-md-4">
+        <label for="middle_name">Middle Name</label>
+        <input type="text" class="form-control" id="middle_name" placeholder="Middle Name">
+      </div>
+
+      <div class="form-group col-md-4">
+        <label for="last_name">Last Name</label>
+        <input type="text" class="form-control" id="last_name" placeholder="Last Name">
+      </div>
+    </div>
+
+
+   <div class="form-row">
+      <div class="form-group col-md-12">
+        <div class="radio">
+          <label><input type="radio" name="optradio" id="male_radio" checked>Male</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="optradio" id="female_radio">Female</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <!-- without this, your rows will not be aligned -->
+      <div class="form-group col-md-12">
+        <div class="checkbox">
+          <label><input type="checkbox" id="galic_checkbox">Galic</label>
+        </div>
+        <div class="checkbox">
+          <label><input type="checkbox" id="shadow_checkbox">Shadow</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-12">
+        <label for="comment">Comment:</label>
+        <textarea class="form-control" rows="5" id="comment"></textarea>
+      </div>
+    </div>
+  </form>
+
+  <!-- How to display all user input information as a paragraph? Finish the output_user_info function -->
+  <button class="btn btn-primary" onclick="output_user_info()">Submit</button>
+  
+  <p id="user_info"></p>
+</div>
+	<div class="container">
+  <h2>Controller: Select data processing methods</h2>
+
+  <div class="form-group">
+    <label for="mySelect">Select Model Logic:</label>
+    <select class="form-control" id="mySelect">
+      <option value='1'>Random Guess</option>
+      <option value='2'>Threshold Based Method</option>
+    </select>   
+
+    <!-- write a function to display chosen option with a pop up window. -->
+    <button type="button" onclick="display_chosen_option()">Display index</button>
+
+    <button type="button" onclick="document.getElementById('mySelect').selectedIndex = '-1'">Deselect all options.</button>    
+  </div>
+</div>	
+	
+	
+	// Connecting this with pie graph display
+<div class="container">
+  <h2>Random Vampire model</h2>
+  <table class="table">
+    <caption>Icons</caption>
+    <thead>
+      <tr>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Icon</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="student_1">
+        <td>John</td>
+        <td>Doe</td>
+        <td><img id="student_1_image" src="src/human.png" style="width:30px"></td>
+      </tr>
+      <tr id="student_2">
+        <td>Mary</td>
+        <td>Moe</td>
+        <td><img id="student_2_image" src="src/human.png" style="width:30px"></td>
+      </tr>
+      <tr id="student_3">
+        <td>July</td>
+        <td>Dooley</td>
+        <td><img id="student_3_image" src="src/human.png" style="width:30px"></td>
+      </tr>
+    </tbody>
+  </table>
+	
+<button type="button" onclick="show_vampire()">Show Vampire</button>
+
+	
+ <!--Div that will hold the pie chart-->
+  <div id="chart_div"></div>
+
+	
+</body>
+
+</html>
