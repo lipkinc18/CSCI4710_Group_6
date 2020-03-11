@@ -1,307 +1,388 @@
 <!doctype html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>student_Table</title>
- <meta charset="utf-8">
- <meta name="viewport" content="width=device-width, initial-scale=1">
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <meta charset="UTF-8">
+  <title>student_Table</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script>
-		//	Threshold based:
-        var classmate_data = [
-            {
-                'name': 'John',
-                'shadow': 'no',
-                'galic': 'no',
-                'complexion': 'pale'
-            },
-            {
-                'name': 'Lee',
-                'shadow': 'yes',
-                'galic': 'no',
-                'complexion': 'pale'
-            },
-            {
-                'name': 'Emma',
-                'shadow': 'no',
-                'galic': 'yes',
-                'complexion': 'brown'
-            },
-            {
-                'name': 'Ava',
-                'shadow': 'yes',
-                'galic': 'yes',
-                'complexion': 'olive '
-            },
-            {
-                'name': 'Alex',
-                'shadow': 'no',
-                'galic': 'no',
-                'complexion': 'brown'
-            },
-        ];
-	     for(var i = 0; i <= classmate_data.length -1; i++){
-            classmate_data[i].vampirism = '';
-        }
+    //	Threshold based data
+    var classmate_data = [
+      {
+        'name': 'John',
+        'shadow': 'no',
+        'galic': 'no',
+        'complexion': 'pale'
+      },
+      {
+        'name': 'Lee',
+        'shadow': 'yes',
+        'galic': 'no',
+        'complexion': 'pale'
+      },
+      {
+        'name': 'Emma',
+        'shadow': 'no',
+        'galic': 'yes',
+        'complexion': 'brown'
+      },
+      {
+        'name': 'Ava',
+        'shadow': 'yes',
+        'galic': 'yes',
+        'complexion': 'olive'
+      },
+      {
+        'name': 'Alex',
+        'shadow': 'no',
+        'galic': 'no',
+        'complexion': 'brown'
+      },
+    ];
 
-        for (var i = 0; i <= classmate_data.length - 1; i++) {
-            var count = 0;
-            if (classmate_data[i]['shadow'] == 'no') {
-                count += 4;
-            }
-            
-            if (classmate_data[i]['galic'] == 'no') {
-                count += 3;
-            }
-            
-            if (classmate_data[i]['complextion'] == 'pale') {
-                count += 3;
-            }
-            console.log(count);
-            if (count > 6) {
-                classmate_data[i].vampirism = 'yes';
-                count = 0;
-            } else {
-                classmate_data[i].vampirism = 'no';
-                count = 0;
-            }
+    // add vampirism cell to JSON
+    function addVampirism() {
+      this.vampirism = 'no';
+    }
 
-            console.log(classmate_data[i]['name']);
-            console.log(classmate_data[i]['vampirism']);
-        }
-		// Load the Visualization API and the corechart package.
-    google.charts.load('current', {'packages':['corechart']});
+    function setVampirism() {
+      for (var i = 0; i <= classmate_data.length - 1; i++) {
+        classmate_data[i].addVampirism;
+      }
+    }
+
+    /*
+      Threshold Model functions
+    */
+
+    function threshold() {
+      for (var i = 0; i <= classmate_data.length - 1; i++) {
+        classify(classmate_data[i]);
+      }
+    }
+
+    function classify(classmate) {
+      var count = 0;
+      if (classmate['shadow'] == 'no') {
+        count += 4;
+      }
+
+      if (classmate['galic'] == 'no') {
+        count += 3;
+      }
+
+      if (classmate['complextion'] == 'pale') {
+        count += 3;
+      }
+
+      if (count > 6) {
+        classmate.vampirism = 'yes';
+        count = 0;
+      }
+    }
+
+    /*
+      Random Model functions
+    */
+
+    // select a random integer
+    function getRandomInt(min, max) {
+      // round up
+      min = Math.ceil(min);
+      // round down
+      max = Math.floor(max);
+      // Math.random() random number in the range 0–1 
+      // inclusive of 0, but not 1
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    var got_infected = getRandomInt(1, classmate_data.length);
+    console.log(got_infected);
+    // infect the random number of people randomly
+    function get_infected() {
+      for (var i = 0; i < got_infected; i++) {
+        var infect = getRandomInt(0, classmate_data.length - 1);
+        console.log(infect)
+        classmate_data[infect].vampirism = 'yes';
+        console.log(classmate_data[infect]['name'])
+      }
+    }
+
+    var chart;
+    var data;
+    var options;
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', { 'packages': ['corechart'] });
 
     // Set a callback to run when the Google Visualization API is loaded.
     google.charts.setOnLoadCallback(drawChart);
-    
+
     // Callback that creates and populates a data table,
     // instantiates the pie chart, passes in the data and
     // draws it.
     function drawChart() {
-      var data = new google.visualization.DataTable();
-      // classmate_data_processing(classmate_data, data);
-      classmate_data_processing(data);
+      data = new google.visualization.DataTable();
 
-  
+      var num_human = 0;
+      var num_vampire = 0;
+      for (var i = 0; i <= classmate_data.length - 1; i++) {
+        // for (var i =  0; i <= input_data.length - 1; i++) {
+        // logic based on shadow 
+        if (classmate_data[i]['vampirism'] == 'yes') {
+          // if(input_data[i]['shadow'] == 'no'){
+          num_vampire++;
+        }
+        else {
+          num_human++;
+        }
+      }
+
+      // Create the data table.
+      data.addColumn('string', 'Element');
+      data.addColumn('number', 'Number');
+      data.addRows([
+        ['Human', num_human],
+        ['Vampire', num_vampire]
+      ]);
+
       // Set chart options
-      var options = {'title':'How many vampires in the class?',
-                     'width':400,
-                     'height':300};
+      options = {
+        'title': 'How many vampires in the class?',
+        'width': 400,
+        'height': 300
+      };
 
       // Instantiate and draw our chart, passing in some options.
-      var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+      chart = new google.visualization.PieChart(document.getElementById('chart_div'));
       chart.draw(data, options);
     }
 
+    function model_select() {
+      if (document.getElementById("mySelect").selectedIndex == 0) {
+        setVampirism();
+        get_infected();
+        chart.draw(data, options);
+      } else if (document.getElementById("mySelect").selectedIndex == 1) {
+        setVampirism();
+        threshold();
+        chart.draw(data, options);
+      }
+    }
+
+/*
     // model of MVC
     // function classmate_data_processing(input_data, result_data){
-    function classmate_data_processing(result_data){
+    function classmate_data_processing(result_data) {
       // this function process classmate data and create data table
       var num_human = 0;
       var num_vampire = 0;
-      for (var i =  0; i <= classmate_data.length - 1; i++) {
-      // for (var i =  0; i <= input_data.length - 1; i++) {
+      for (var i = 0; i <= classmate_data.length - 1; i++) {
+        // for (var i =  0; i <= input_data.length - 1; i++) {
         // logic based on shadow 
-        if(classmate_data[i]['shadow'] == 'no'){
-        // if(input_data[i]['shadow'] == 'no'){
-          num_vampire ++;
+        if (classmate_data[i]['vampirism'] == 'yes') {
+          // if(input_data[i]['shadow'] == 'no'){
+          num_vampire++;
         }
-        else{
-          num_human ++;
+        else {
+          num_human++;
         }
       }
       // Create the data table.
       result_data.addColumn('string', 'Element');
       result_data.addColumn('number', 'Count');
-      result_data.addRows([     
+      result_data.addRows([
         ['Human', num_human],
         ['Vampire', num_vampire]
       ]);
+    }
+*/
+    function create_table() {
+      //Creating intial table to display
+      var table = document.getElementById("student_table");
+      var row = table.insertRow(1);
 
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+      var cell4 = row.insertCell(3);
+      for (var i = 0; i <= classmate_data.length - 1; i++) {
+        console.log(classmate_data[i]['name']);
+        console.log(classmate_data[i]['shadow']);
+        console.log(classmate_data[i]['galic']);
+        console.log(classmate_data[i]['complexion']);
+      }
+      for (var i = 0; i <= classmate_data.length - 1; i++) {
+        var row = table.insertRow(i + 1);
+
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        cell1.innerHTML = classmate_data[i]['name'];
+        cell2.innerHTML = classmate_data[i]['shadow'];
+        cell3.innerHTML = classmate_data[i]['galic'];
+        cell4.innerHTML = classmate_data[i]['complexion'];
+      }
+
+      delete_last_row()
     }
 
-	</script>
-	
-<script type="text/javascript">
-	function create_table(){
-		//Creating intial table to display
-	  var table = document.getElementById("student_table");
-	  var row = table.insertRow(1);
-   
-      var cell1 = row.insertCell(0);
-      var cell2 = row.insertCell(1);
-	  var cell3 = row.insertCell(2);
-	  var cell4 = row.insertCell(3);
-		for(var i = 0 ; i <= classmate_data.length -1; i++){
-		console.log(classmate_data[i]['name']);
-      	console.log(classmate_data[i]['shadow']);
-	  	console.log(classmate_data[i]['galic']);
-	  	console.log(classmate_data[i]['complexion']);  
-	   }
-	  for(var i = 0 ; i <= classmate_data.length -1; i++){
-		var row = table.insertRow(i+1);
-   
-      var cell1 = row.insertCell(0);
-      var cell2 = row.insertCell(1);
-	  var cell3 = row.insertCell(2);
-	  var cell4 = row.insertCell(3);
-		cell1.innerHTML = classmate_data[i]['name'];
-      	cell2.innerHTML = classmate_data[i]['shadow'];
-	  	cell3.innerHTML = classmate_data[i]['galic'];
-	  	cell4.innerHTML = classmate_data[i]['complexion'];  
-	   }
-		
-	  delete_last_row()
-		}
-	</script>
-<script type="text/javascript">
-    function insert_row(){
+    function insert_row() {
       var table = document.getElementById("student_table");
       // Create an empty <tr> element and add it to the 1st position of the table:
       // BE CAREFUL!!! row 0 is our heading row
       var row = table.insertRow(1);
-   
+
       var cell1 = row.insertCell(0);
       var cell2 = row.insertCell(1);
-	  var cell3 = row.insertCell(2);
-	  var cell4 = row.insertCell(3);
-	  var shadow; 
-	  var galic;
-	  if (document.getElementById("shadow_checkbox").checked){
-		  shadow = "yes";
-	  }	
-	  else {
-		  shadow = "no";
-	  }
-	  if (document.getElementById("galic_checkbox").checked){
-		  galic = "yes";
-	  }	
-	  else {
-		  galic = "no";
-	  }
-		
+      var cell3 = row.insertCell(2);
+      var cell4 = row.insertCell(3);
+      var shadow;
+      var galic;
+      if (document.getElementById("shadow_checkbox").checked) {
+        shadow = "yes";
+      }
+      else {
+        shadow = "no";
+      }
+      if (document.getElementById("galic_checkbox").checked) {
+        galic = "yes";
+      }
+      else {
+        galic = "no";
+      }
+
       // Add some text to the new cells:
       cell1.innerHTML = document.getElementById("first_name").value;
       cell2.innerHTML = shadow;
-	  cell3.innerHTML = galic;
-	  cell4.innerHTML = document.getElementById("Complexion").value;
-	  
-	//Adds new student to classmate_data
-	  classmate_data[classmate_data.length] = {
-		  'name':document.getElementById("first_name").value ,
-          'shadow': shadow,
-          'galic': galic,
-          'complexion': document.getElementById("Complexion").value
-	  };
-		console.log(classmate_data);
+      cell3.innerHTML = galic;
+      cell4.innerHTML = document.getElementById("Complexion").value;
+
+      //Adds new student to classmate_data
+      classmate_data[classmate_data.length] = {
+        'name': document.getElementById("first_name").value,
+        'shadow': shadow,
+        'galic': galic,
+        'complexion': document.getElementById("Complexion").value
+      };
+      console.log(classmate_data);
     }
-    function delete_row(){
+
+    function delete_row() {
       // delete the second row
       document.getElementById("student_table").deleteRow(1);
     }
+
     // based on https://stackoverflow.com/questions/10686888/delete-last-row-in-table
-    function delete_last_row(){
+    function delete_last_row() {
       var table = document.getElementById('student_table');
       var row_count = table.rows.length;
 
-      table.deleteRow(row_count -1);
-    }
-  </script>
-	 <script type="text/javascript">
-	  // Have to change to 
-    function display_chosen_option() {
-      var x = document.getElementById("mySelect").selectedIndex;
-	  var y = document.getElementById("mySelect").options;
-		window.alert("test");
+      table.deleteRow(row_count - 1);
     }
 
-	</script>
+    // Have to change to 
+    function display_chosen_option() {
+      var x = document.getElementById("mySelect").selectedIndex;
+      var y = document.getElementById("mySelect").options;
+      window.alert("index: " + y[x].index + " is " + y[x].text);
+    }
+
+  </script>
 </head>
 
 <body>
-	<div class="container">
- <table class="table table-bordered" id="student_table">
-    <caption>Student</caption>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Shadow</th>
-		<th>Galic</th>
-		<th>Complexion</th>
-      </tr>
-    </thead>
-    <tbody>	
-    </tbody>
-   
-  </table>
-<button class="btn btn-primary" onclick="create_table()">Create Table</button>
-  <button class="btn btn-primary" onclick="delete_row()">Delete the first entry</button>
-  <button class="btn btn-primary" onclick="delete_last_row()">Delete the last entry</button>
-</div>
-<div class="container">
-  <h2>Form control: input</h2>
-  <form>
-    <div class="form-row">
-      <!-- md is short for Medium, >= 768 px -->
-      <div class="form-group col-md-6">
-        <label for="first_name">First Name</label>
-        <!-- possible types:  text, password, datetime, datetime-local, date, month, time, week, number, email, url, search, tel, and color. -->
-        <input type="text" class="form-control" id="first_name" placeholder="First Name">
-       
-      </div>
+  <div class="container">
+    <table class="table table-bordered" id="student_table">
+      <caption>Student</caption>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Shadow</th>
+          <th>Galic</th>
+          <th>Complexion</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
 
-      <div class="form-group col-md-6">
-        <label for="last_name">Last Name</label>
-        <input type="text" class="form-control" id="last_name" placeholder="Last Name">
-      </div>
-    </div>
-
-    <div class="form-row">
-      <!-- without this, your rows will not be aligned -->
-      <div class="form-group col-md-12">
-        <div class="checkbox">
-          <label><input type="checkbox" id="galic_checkbox">Galic</label>
-        </div>
-        <div class="checkbox">
-          <label><input type="checkbox" id="shadow_checkbox">Shadow</label>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-row">
-      <div class="form-group col-md-12">
-        <label for="last_name">Complexion</label>
-        <input type="text" class="form-control" id="Complexion" placeholder="Complexion">
-      </div>
-    </div>
-  </form>
-	<br>
-  <button class="btn btn-primary" onclick="insert_row()">Submit</button>
-  
-  <p id="user_info"></p>
-</div>
-	<div class="container">
-  <h2>Controller: Select data processing methods</h2>
-
-  <div class="form-group">
-    <label for="mySelect">Select Model Logic:</label>
-    <select class="form-control" id="mySelect">
-      <option value='1'>Random Guess</option>
-      <option value='2'>Threshold Based Method</option>
-    </select>   
-
-    <!-- write a function to display chosen option with a pop up window. -->
-    <button type="button" onclick="display_chosen_option()">Select logic Model</button>
-
-    <button type="button" onclick="document.getElementById('mySelect').selectedIndex = '-1'">Deselect all options.</button>    
+    </table>
+    <button class="btn btn-primary" onclick="create_table()">Create Table</button>
+    <button class="btn btn-primary" onclick="delete_row()">Delete the first entry</button>
+    <button class="btn btn-primary" onclick="delete_last_row()">Delete the last entry</button>
   </div>
-</div>	
-	
-	<!--Div that will hold the pie chart-->
+  <div class="container">
+    <h2>Form control: input</h2>
+    <form>
+      <div class="form-row">
+        <!-- md is short for Medium, >= 768 px -->
+        <div class="form-group col-md-6">
+          <label for="first_name">First Name</label>
+          <!-- possible types:  text, password, datetime, datetime-local, date, month, time, week, number, email, url, search, tel, and color. -->
+          <input type="text" class="form-control" id="first_name" placeholder="First Name">
+
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="last_name">Last Name</label>
+          <input type="text" class="form-control" id="last_name" placeholder="Last Name">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <!-- without this, your rows will not be aligned -->
+        <div class="form-group col-md-12">
+          <div class="checkbox">
+            <label><input type="checkbox" id="galic_checkbox">Galic</label>
+          </div>
+          <div class="checkbox">
+            <label><input type="checkbox" id="shadow_checkbox">Shadow</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label for="last_name">Complexion</label>
+          <input type="text" class="form-control" id="Complexion" placeholder="Complexion">
+        </div>
+      </div>
+    </form>
+    <br>
+    <button class="btn btn-primary" onclick="insert_row()">Submit</button>
+
+    <p id="user_info"></p>
+  </div>
+  <div class="container">
+    <h2>Controller: Select data processing methods</h2>
+
+    <div class="form-group">
+      <label for="mySelect">Select Model Logic:</label>
+      <select class="form-control" id="mySelect">
+        <option value='1'>Random Guess</option>
+        <option value='2'>Threshold Based Method</option>
+      </select>
+
+
+
+      <!-- write a function to display chosen option with a pop up window. -->
+      <button type="button" onclick="display_chosen_option()">Select logic Model</button>
+
+      <button type="button" onclick="document.getElementById('mySelect').selectedIndex = '-1'">Deselect all
+        options.</button>
+    </div>
+  </div>
+  <script>
+    model_select();
+  </script>
+
   <div id="chart_div"></div>
+
 </body>
+
 </html>
