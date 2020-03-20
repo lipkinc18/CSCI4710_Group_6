@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Random Model Visualization</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script>
+        classmate_data = classmate_data = JSON.parse(sessionStorage.getItem("classmate_data"));
+        /*
+          Random Model functions
+        */
+
+        // select a random integer
+        function getRandomInt(min, max) {
+            // round up
+            min = Math.ceil(min);
+            // round down
+            max = Math.floor(max);
+            // Math.random() random number in the range 0–1 
+            // inclusive of 0, but not 1
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        var got_infected = getRandomInt(1, classmate_data.length);
+        console.log(got_infected);
+        // infect the random number of people randomly
+        function get_infected() {
+            for (var i = 0; i < got_infected; i++) {
+                var infect = getRandomInt(0, classmate_data.length - 1);
+                console.log(infect)
+                classmate_data[infect].vampirism = 'yes';
+                console.log(classmate_data[infect]['name'])
+            }
+        }
+
+        var chart;
+        var data;
+        var options;
+        var num_human = 0;
+        var num_vampire = 0;
+        // Load the Visualization API and the corechart package.
+        google.charts.load('current', { 'packages': ['corechart'] });
+
+        // Set a callback to run when the Google Visualization API is loaded.
+        google.charts.setOnLoadCallback(drawChart);
+
+        // Callback that creates and populates a data table,
+        // instantiates the pie chart, passes in the data and
+        // draws it.
+        function drawChart() {
+            for (var i = 0; i <= classmate_data.length - 1; i++) {
+                // for (var i =  0; i <= input_data.length - 1; i++) {
+                // logic based on vampirism
+                if (classmate_data[i]['vampirism'] == 'yes') {
+                    num_vampire++;
+                }
+                else {
+                    num_human++;
+                }
+            }
+            // Create the data table.
+            data = new google.visualization.DataTable();
+            data.addColumn('string', 'Element');
+            data.addColumn('number', 'Number');
+            data.addRows([
+                ['Human', num_human],
+                ['Vampire', num_vampire]
+            ]);
+
+            // Set chart options
+            options = {
+                'title': 'How many vampires in the class?',
+                'width': 400,
+                'height': 300
+            };
+
+            // Instantiate and draw our chart, passing in some options.
+            chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
+    </script>
+</head>
+
+<body>
+    <div id="chart_div"></div>
+</body>
+
+</html>

@@ -11,7 +11,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script>
-    //	Threshold based data
+    //	Initial dataset
     var classmate_data = [
       {
         'name': 'John',
@@ -53,122 +53,6 @@
     function setVampirism() {
       for (var i = 0; i <= classmate_data.length - 1; i++) {
         classmate_data[i].addVampirism;
-      }
-    }
-
-    /*
-      Threshold Model functions
-    */
-
-    function threshold() {
-      for (var i = 0; i <= classmate_data.length - 1; i++) {
-        classify(classmate_data[i]);
-      }
-    }
-
-    function classify(classmate) {
-      var count = 0;
-      if (classmate['shadow'] == 'no') {
-        count += 4;
-      }
-
-      if (classmate['galic'] == 'no') {
-        count += 3;
-      }
-
-      if (classmate['complextion'] == 'pale') {
-        count += 3;
-      }
-
-      if (count > 6) {
-        classmate.vampirism = 'yes';
-        count = 0;
-      }
-    }
-
-    /*
-      Random Model functions
-    */
-
-    // select a random integer
-    function getRandomInt(min, max) {
-      // round up
-      min = Math.ceil(min);
-      // round down
-      max = Math.floor(max);
-      // Math.random() random number in the range 0–1 
-      // inclusive of 0, but not 1
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    var got_infected = getRandomInt(1, classmate_data.length);
-    console.log(got_infected);
-    // infect the random number of people randomly
-    function get_infected() {
-      for (var i = 0; i < got_infected; i++) {
-        var infect = getRandomInt(0, classmate_data.length - 1);
-        console.log(infect)
-        classmate_data[infect].vampirism = 'yes';
-        console.log(classmate_data[infect]['name'])
-      }
-    }
-
-    var chart;
-    var data;
-    var options;
-    var num_human = 0;
-    var num_vampire = 0;
-    // Load the Visualization API and the corechart package.
-    google.charts.load('current', { 'packages': ['corechart'] });
-
-    // Set a callback to run when the Google Visualization API is loaded.
-    google.charts.setOnLoadCallback(drawChart);
-
-    // Callback that creates and populates a data table,
-    // instantiates the pie chart, passes in the data and
-    // draws it.
-    function drawChart() {
-      for (var i = 0; i <= classmate_data.length - 1; i++) {
-        // for (var i =  0; i <= input_data.length - 1; i++) {
-        // logic based on vampirism
-        if (classmate_data[i]['vampirism'] == 'yes') {
-          num_vampire++;
-        }
-        else {
-          num_human++;
-        }
-      }
-      // Create the data table.
-      data = new google.visualization.DataTable();
-      data.addColumn('string', 'Element');
-      data.addColumn('number', 'Number');
-      data.addRows([
-        ['Human', num_human],
-        ['Vampire', num_vampire]
-      ]);
-
-      // Set chart options
-      options = {
-        'title': 'How many vampires in the class?',
-        'width': 400,
-        'height': 300
-      };
-
-      // Instantiate and draw our chart, passing in some options.
-      chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-      chart.draw(data, options);
-    }
-
-    function model_select() {
-      if (document.getElementById("mySelect").selectedIndex == 1) {
-        get_infected();
-        window.alert('Random Model Logic Completed');
-        chart.draw(data, options);
-        console.log(data);
-      } else if (document.getElementById("mySelect").selectedIndex == 2) {
-        threshold();
-        console.log('Threshold Model Logic Completed');
-        chart.draw(data, options);
       }
     }
 
@@ -262,15 +146,42 @@
       var x = document.getElementById("mySelect").selectedIndex;
       var y = document.getElementById("mySelect").options;
       window.alert("index: " + y[x].index + " is " + y[x].text);
+      model_select();
     }
 
+    function show_threshold(){
+      update_classmate();
+      window.location.href = "threshold.html"
+    }
+
+    function show_random(){
+      update_classmate();
+      window.location.href = "random.html"
+    }
+
+    function model_select() {
+      if (document.getElementById("mySelect").selectedIndex == 1) {
+        show_random();
+        window.alert('Random Model Logic Completed');
+      } else if (document.getElementById("mySelect").selectedIndex == 2) {
+        show_threshold();
+        console.log('Threshold Model Logic Completed');
+      }
+    }
+
+    function update_classmate() {
+      setVampirism();
+      sessionStorage.setItem("classmate_data", JSON.stringify(classmate_data));
+    }
   </script>
 </head>
 
 <body>
+  <h2><center>Is Your Classmate a Vampire?</center></h2>
+  <br>
   <div class="container">
     <table class="table table-bordered" id="student_table">
-      <caption>Student</caption>
+      <caption>Classmate Roster</caption>
       <thead>
         <tr>
           <th>Name</th>
@@ -283,7 +194,7 @@
       </tbody>
 
     </table>
-    <button class="btn btn-primary" onclick="create_table()">Create Table</button>
+    <script>create_table();</script>
     <button class="btn btn-primary" onclick="delete_row()">Delete the first entry</button>
     <button class="btn btn-primary" onclick="delete_last_row()">Delete the last entry</button>
   </div>
@@ -335,6 +246,7 @@
     <div class="form-group">
       <label for="mySelect">Select Model Logic:</label>
       <select class="form-control" id="mySelect">
+        <option value="0"></option>
         <option value='1'>Random Guess</option>
         <option value='2'>Threshold Based Method</option>
       </select>
@@ -342,17 +254,13 @@
 
 
       <!-- write a function to display chosen option with a pop up window. -->
-      <button type="button" onclick="display_chosen_option()">Select logic Model</button>
+      <br>
+      <button class="btn btn-primary" onclick="display_chosen_option()">Select logic Model</button>
 
-      <button type="button" onclick="document.getElementById('mySelect').selectedIndex = '-1'">Deselect all
+      <button class="btn btn-primary" onclick="document.getElementById('mySelect').selectedIndex = '0'">Deselect all
         options.</button>
     </div>
   </div>
-  <script>
-    setVampirism();
-    model_select();
-  </script>
-
   <div id="chart_div"></div>
 </body>
 
