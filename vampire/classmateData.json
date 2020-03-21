@@ -1,0 +1,37 @@
+ var classmate_data = [
+      {
+        'name': 'Johnnnn',
+        'shadow': 'no',
+        'galic': 'no',
+        'complexion': 'pale',
+		'vampirism' : 'no'  
+      },
+      {
+        'name': 'Lee',
+        'shadow': 'yes',
+        'galic': 'no',
+        'complexion': 'pale',
+		'vampirism' : 'no'  
+      },
+      {
+        'name': 'Emma',
+        'shadow': 'no',
+        'galic': 'yes',
+        'complexion': 'brown',
+		'vampirism' : 'no'  
+      },
+      {
+        'name': 'Ava',
+        'shadow': 'yes',
+        'galic': 'yes',
+        'complexion': 'olive',
+		'vampirism' : 'no'  
+      },
+      {
+        'name': 'Alex',
+        'shadow': 'no',
+        'galic': 'no',
+        'complexion': 'brown',
+		'vampirism' : 'no'  
+      },
+    ];
