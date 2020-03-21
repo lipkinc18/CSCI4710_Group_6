@@ -3,17 +3,21 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Random Model Visualization</title>
+    <title>Threshold Model Visualization</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
+	 <script type="text/javascript" src="vampire.js"></script> 
+	<script type="text/javascript" src="classmateData.json"></script> 
+	<link rel="stylesheet" href="style.css">
     <script>
-        classmate_data = JSON.parse(sessionStorage.getItem("classmate_data"));
-        /*
+        
+		classmate_data = JSON.parse(sessionStorage.getItem("classmate_data"));
+		console.log(classmate_data)
+		/*
           Threshold Model functions
         */
 
@@ -42,7 +46,7 @@
                 count = 0;
             }
         }
-
+		
         var chart;
         var data;
         var options;
@@ -92,6 +96,13 @@
 </head>
 
 <body>
+	 <ul>
+        <li><a  href="student_table.html">Restart</a></li>  
+     </ul>
+	<script>
+		threshold();
+	</script>
+	<h3>Using the Threshold Model!</h3>
     <div id="chart_div"></div>
 </body>
 

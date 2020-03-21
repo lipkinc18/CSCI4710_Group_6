@@ -10,9 +10,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
+	 <script type="text/javascript" src="vampire.js"></script> 
+	<script type="text/javascript" src="classmateData.json"></script> 
+	<link rel="stylesheet" href="style.css">
     <script>
-        classmate_data = classmate_data = JSON.parse(sessionStorage.getItem("classmate_data"));
+        console.log(classmate_data);
         /*
           Random Model functions
         */
@@ -89,6 +91,12 @@
 </head>
 
 <body>
+	 <ul>
+        <li><a  href="student_table.html">Restart</a></li>  
+     </ul>
+	<script>
+		get_infected();
+	</script>
     <div id="chart_div"></div>
 </body>
 
