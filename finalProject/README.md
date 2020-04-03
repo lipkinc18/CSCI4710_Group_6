@@ -1,4 +1,4 @@
-## Quick Start
+## Quick Start for Pickup2FrontDoor
 ### 
 First, we need to install a Python 3 virtual environment with:
 ```
@@ -25,3 +25,4 @@ Then you can start the server with:
 ```
 python3 main.py
 ```
+Open Google Chrome and enter http://127.0.0.1:5000/
