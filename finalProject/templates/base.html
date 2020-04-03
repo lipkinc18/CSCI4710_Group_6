@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+  <head>
+    {% block head %}
+    <title>Pickup2FrontDoor</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../style.css">
+
+    {% block extrajs %}{% endblock%}
+    <title>{% block title %}{% endblock %}</title>
+    {% endblock %}
+  </head>
+  <body>
+  <h1>Pickup2FrontDoor</h1>
+    <!-- We have done a similar example: Example 13 -->
+    <nav class="navbar navbar-default" style="background: #11557C">
+      <!-- .container-fluid class provides a full width container, spanning the entire width of the viewport -->
+      <div class="container-fluid">
+      <!-- .container class provides a responsive fixed width container -->
+      <!-- <div class="container"> -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">Pickup2FrontDoor</a>
+        </div>
+        <!-- Used on a <ul> container that contains the list items with links inside a navigation bar -->
+        <ul class="nav navbar-nav">
+          <li {% block nav_request %}{% endblock %}><a href="/request">Request a Pickup</a></li>
+          <li {% block nav_accept %}{% endblock %}><a href="/accept">Accept a Pickup</a></li>
+          <li {% block nav_status %}{% endblock %}><a href="/status">Pickup Request Status</a></li>
+          <li {% block nav_logout %}{% endblock %}><a href="/">Log out</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div id="content">{% block content %}{% endblock %}</div>
+
+  </body>
+</html>
