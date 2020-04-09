@@ -1,13 +1,76 @@
 {% extends "base.html" %}
 {% block extrajs %}
 <!-- You should place your js files here -->
-<!-- e.g. <script src="/static/js/index.js"></script> -->
+<style>
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  text-align: left;
+  padding: 16px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+</style>
 {% endblock%}
 
 {% block title %}Request Status{% endblock %}
 {% block nav_status %}class="active"{% endblock %}
 {% block content %}
 
-<p>{{log_status}}</p>
+
+      <div class="container">
+      <h2>My Pickups</h2>
+        <table>
+         <tr>
+            <th>Order Number</th>
+            <th>Pending</th>
+            <th>In Progress</th>
+        </tr>
+        <tr>
+            <td>1234566 </td>
+            <td><label><input type="radio" name="optradio" id="pending_radio"></label></td>
+            <td><label><input type="radio" name="optradio" id="inprogress_radio"></label></td>
+        </tr>
+
+        </table>
+
+
+    </div>
+      <div class="container">
+      <h2>Pending</h2>
+        <table>
+         <tr>
+            <th>Inform</th>
+            <th>Completed?</th>
+        </tr>
+        <tr>
+            <td>Please let Target know John Smith is pickup up the order </td>
+            <td><label><input type="radio" name="optradio" id="complete_radio"></label></td>
+        </tr>
+
+        </table>
+    </div>
+
+    <div class="container">
+        <h2>Delivery Report</h2>
+        <table>
+         <tr>
+            <th>Pickup Request Completed</th>
+            <th>Cash Earned</th>
+        </tr>
+        <tr>
+            <td>Hardcode (4) </td>
+            <td>HardCode ($25)</td>
+        </tr>
+
+        </table>
+    </div>
   
 {% endblock %}
