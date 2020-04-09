@@ -1,13 +1,49 @@
 {% extends "base.html" %}
 {% block extrajs %}
-<!-- You should place your js files here -->
-<!-- e.g. <script src="/static/js/index.js"></script> -->
+
 {% endblock%}
 
 {% block title %}Request a Pickup{% endblock %}
 {% block nav_request %} class="active" {% endblock %}
 {% block content %}
 
-<p>{{log_request}}</p>
+    <div class="row" style="margin-top:50px">
+    <div class="col-6 col-sm-6" align="center">
+         <img src="static/src/package 2.jpeg"  width="200" height="200"/>
+    </div>
+
+     <div class="col-6 col-sd-6">
+         <p>Fill out form with your pickup order information</p>
+     </div>
+    </div>
+
+<br>
+
+    <div class="container">
+        <h2>Submit a Pickup Request</h2>
+    <form>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                 <label for="full_name">Full Name</label>
+                 <input type="text" class="form-control" id="full_name" placeholder="John Smith Jr.">
+             </div>
+             <div class="form-group col-md-4">
+                <label for="store_name">Store Name</label>
+                <input type="text" class="form-control" id="store_name" placeholder="Walmart">
+             </div>
+
+             <div class="form-group col-md-4">
+                 <label for="order_number">Order Number</label>
+                  <input type="text" class="form-control" id="order_number" placeholder="123456789">
+            </div>
+        </div>
+
+    </form>
+    <button class="btn btn-primary" onclick="submit_order()">Submit</button>
+    </div>
+
+    <p id="user_info"></p>
+
+
   
 {% endblock %}
