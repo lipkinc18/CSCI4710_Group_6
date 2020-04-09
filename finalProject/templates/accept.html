@@ -1,13 +1,65 @@
 {% extends "base.html" %}
 {% block extrajs %}
 <!-- You should place your js files here -->
-<!-- e.g. <script src="/static/js/index.js"></script> -->
+<style>
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  text-align: left;
+  padding: 16px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+</style>
 {% endblock%}
 
 {% block title %}Accept a Pickup{% endblock %}
- {% block nav_accept %} class="active"{% endblock %}
+ {% block nav_accept %} class="active" {% endblock %}
 {% block content %}
 
-<p>{{log_accept}}</p>
-  
+    <div class="row" style="margin-top:50px">
+    <div class="col-6 col-sm-6" align="center">
+         <img src="static/src/money.jpg"  width="200" height="200"/>
+    </div>
+
+     <div class="col-6 col-sd-6">
+         <p>Want to pick up someone order for them? Select which order </p>
+         <p>you want to pick up and deliver for some quick cash! </p>
+     </div>
+    </div>
+
+<br>
+
+    <div class="container">
+        <table>
+  <tr>
+    <th>Store Name</th>
+    <th>Pickup Time</th>
+    <th>Select</th>
+  </tr>
+  <tr>
+    <td>Hardcode </td>
+    <td>HardCode</td>
+    <td><label><input type="radio" name="optradio" id="select_radio"></label></td>
+  </tr>
+
+  <tr>
+    <td>Hardcode </td>
+    <td>HardCode</td>
+    <td><label><input type="radio" name="optradio" id="select_radio2"></label></td>
+  </tr>
+</table>
+
+    </div>
+
+    <p id="user_info"></p>
+
+
 {% endblock %}
