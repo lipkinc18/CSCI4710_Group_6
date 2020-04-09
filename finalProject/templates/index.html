@@ -1,18 +1,50 @@
 {% block extrajs %}
 <!-- You should place your js files here -->
 <!-- e.g. <script src="/static/js/index.js"></script> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 {% endblock%}
 
 {% block title %}  {% endblock %}
 
 {% block content %}
-<h1>Pickup2FrontDoor</h1>
-<p>Pickup2FrontDoor is a site to have ready to pick up orders delivered right to your front door!
-How it works: Submit a request to have an order picked up. Once your request is accepted you inform the
-    store who is coming to pickup the order and your order is take right to your front door!</p>
+<div class="w3-row" style="margin-top: 100px">
+  <div class="w3-container w3-half">
+    <h1 style="color:#7A89AA" align="center">Pickup2FrontDoor</h1>
+  </div>
+  <div class="w3-container w3-half col-sm-4" style="background-color:#7A89AA;">
+   <p>Pickup2FrontDoor is a site to have ready to pick up orders delivered right to your front door!
+                How it works: Submit a request to have an order picked up. Once your request is accepted you inform the
+                store who is coming to pickup the order and your order is take right to your front door!</p>
+  </div>
+</div>
 
-    link is just there to get to other pages right now
-    <li><a href="/request">Request a Pickup</a></li>
-<p>{{log_index}}</p>
+<div class="w3-row" style="margin-top:50px">
+    <div>
+    <img src="static/src/frontdoor.jpg"  align="left" width="700" height="400"/>
+
+    <div class="container">
+        <form>
+          <div class="form-row" align="center">
+             <!-- md is short for Medium, >= 768 px -->
+            <div class="form-group col-md-4">
+              <label for="Username">Username</label>
+               <input type="text" class="form-control" id="Username" placeholder="Username">
+             </div>
+
+              <div class="form-group col-md-4">
+                <label for="Password">Password</label>
+                <input type="text" class="form-control" id="Password" placeholder="Password">
+              </div>
+            </div>
+        </form>
+    </div>
+        <div class="form-row" align="center" >
+            <button class="btn btn-primary" onclick="login()">Log In</button>
+            <button class="btn btn-primary" onclick="create_Account()">Create New Account</button>
+        </div>
+</div>
+
+
   
 {% endblock %}
