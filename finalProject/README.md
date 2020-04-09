@@ -1,5 +1,6 @@
 ## Quick Start for Pickup2FrontDoor
-### 
+### Corwin Lipkin & Luis Vazquezlazaro
+### Group 6
 First, we need to install a Python 3 virtual environment with:
 ```
 sudo apt-get install python3-venv
