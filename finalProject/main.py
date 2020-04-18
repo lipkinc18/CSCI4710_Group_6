@@ -1,42 +1,61 @@
-from flask import Flask, render_template, jsonify, json, redirect, request
+from flask import Flask, render_template, jsonify, json, redirect, request, flash, url_for
 import util
 import os
 from flask_sqlalchemy import SQLAlchemy
-
-
-# current directory path
-basedir = os.path.abspath(os.path.dirname(__file__))
+from forms import RegisterForm, LoginForm, RequestPickupForm
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager, UserMixin, login_user,logout_user, current_user
 
 app = Flask(__name__)
 
+app.config['SECRET_KEY']= "Guess my key!"
+# current directory path
+basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] =\
 'sqlite:///' + os.path.join(basedir, 'pickup2frontdoor.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
+login_manager = LoginManager(app)
 
-class User(db.Model):
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+class User(db.Model, UserMixin):
     _tablename_ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     first_name= db.Column(db.String(64))
     last_name= db.Column(db.String(64))
-    email = db.Column(db.String(128))
+    email = db.Column(db.String(128),)
     password = db.Column(db.String(64))
+
+    def __repr__(self):
+        return f"User('{self.first_name}','{self.email}')"
 
 class Order(db.Model):
     _tablename_ = 'order'
-    user_id = db.Column(db.Integer)
+    id = db.Column(db.Integer, primary_key=True)
     order = db.Column(db.Integer)
     store = db.Column(db.String(64))
     pickup = db.Column(db.String(64))
-    request_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer,db.ForeignKey('user.id'))
+
+    def __repr__(self):
+        return f"Order('{self.order}','{self.store}')"
 
 class Pickup(db.Model):
     _tablename_ = 'pickup'
-    user_id = db.Column(db.Integer)
-    request = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    request = db.Column(db.Integer)
+    store = db.Column(db.String(64))
     status = db.Column(db.Integer)
     cash = db.Column(db.Integer)
+    user_id = db.Column(db.Integer,db.ForeignKey('user.id'))
+
+    def __repr__(self):
+        return f"Pickup('{self.store},{self.request}','{self.status}')"
 
 
 @app.route('/')
@@ -45,7 +64,7 @@ def index():
     db.drop_all()
     db.create_all()
 
-    admin = User(id = 1, first_name = 'admin', last_name = 'admin', email = 'admin', password = 'password')
+    admin = User(first_name = 'admin', last_name = 'admin', email = 'admin@admin.com', password = 'password')
     db.session.add(admin)
     db.session.commit()
     print(User.query.all())
@@ -53,29 +72,64 @@ def index():
     log = 'homepage.'
     return render_template('index.html', log_index = log)
 
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/register', methods=['GET','POST'])
 def register():
-    #this is your registration page
-    log = 'register.'
-    return render_template('register.html', log_request = log)
+    form = RegisterForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user= User(first_name = form.firstName.data, last_name = form.lastName.data , email = form.email.data , password = hashed_password)
+        db.session.add(user)
+        db.session.commit()
+        return redirect(url_for('login'))
+    return render_template('register.html', title="register", form=form)
 
-@app.route('/request')
+@app.route('/login', methods=['GET','POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user)
+            return redirect(url_for('request'))
+    return render_template('login.html', title="register", form=form)
+
+
+@app.route('/request', methods=['GET','POST'])
 def request():
-    # this is your create a request page
-    log = 'request.'
-    return render_template('request.html', log_request = log)
+    form= RequestPickupForm()
+    if form.validate_on_submit():
+        orderRequest = Order(order= form.orderNum.data, store= form.storeName.data, pickup="Now", user_id=form.email.data)
+        pickup = Pickup(request= form.orderNum.data,store =form.storeName.data, status= 0, cash= 5,user_id=form.email.data )
+        db.session.add(orderRequest)
+        db.session.add(pickup)
+        db.session.commit()
+        return redirect(url_for('status'))
+    return render_template('request.html', title="requestPickupForm", form=form)
 
 @app.route('/accept')
 def accept():
-    # this is your accept a request page
-    log = 'accept.'
-    return render_template('accept.html', log_accept = log)
+    pickups = Pickup.query.all()
+    return render_template('accept.html', pickups = pickups,log_html=Pickup.query.all())
 
 @app.route('/status')
 def status():
-    # this is your request status page
-    log = 'status.'
-    return render_template('status.html', log_status = log)
+    status = Order.query.all()
+    print(status)
+    return render_template('status.html', status=status)
+
+
+@app.route('/get_pickup', methods=['GET'])
+def get_pickup():
+    print(Pickup.query.all())
+    return util.parse_pickup(Pickup.query.all())
+
+
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
 
 if __name__ == '__main__':
     app.debug = True

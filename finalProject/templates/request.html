@@ -21,25 +21,59 @@
 
 <div class="container">
     <h2>Submit a Pickup Request</h2>
-    <form>
-        <div class="form-row">
-            <div class="form-group col-md-4">
-                 <label for="full_name">Full Name</label>
-                 <input type="text" class="form-control" id="full_name" placeholder="John Smith Jr.">
-             </div>
-             <div class="form-group col-md-4">
-                <label for="store_name">Store Name</label>
-                <input type="text" class="form-control" id="store_name" placeholder="Walmart">
-             </div>
-
-             <div class="form-group col-md-4">
-                 <label for="order_number">Order Number</label>
-                  <input type="text" class="form-control" id="order_number" placeholder="123456789">
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label") }}
+                    {% if form.email.errors %}
+                        {{ form.email(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.email(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.storeName.label(class="form-control-label") }}
+                    {% if form.storeName.errors %}
+                        {{ form.storeName(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.storeName.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.storeName(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.orderNum.label(class="form-control-label") }}
+                    {% if form.orderNum.errors %}
+                        {{ form.orderNum(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.orderNum.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.orderNum(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
             </div>
-        </div>
+        </form>
+    </div>
+    <div>
+        
+    </div>
 
-    </form>
-    <button class="btn btn-primary" onclick="submit_order()">Submit</button>
 </div>
 
 <p id="user_info"></p>

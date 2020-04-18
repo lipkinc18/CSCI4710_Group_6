@@ -24,39 +24,27 @@ tr:nth-child(even) {
 {% block nav_status %}class="active"{% endblock %}
 {% block content %}
 
-
+     
       <div class="container">
       <h2>My Pickups</h2>
         <table>
          <tr>
             <th>Order Number</th>
-            <th>Pending</th>
-            <th>In Progress</th>
+            <th>Store</th>
+            <th>Status</th>
         </tr>
+        {% for stat in status %}
         <tr>
-            <td>1234566 </td>
-            <td><label><input type="radio" name="optradio" id="pending_radio"></label></td>
-            <td><label><input type="radio" name="optradio" id="inprogress_radio"></label></td>
+            <td>{{stat.order}} </td>
+            <td>{{stat.store}}</td>
+            <td>Pending</td>
         </tr>
-
+        {% endfor %}
         </table>
 
 
     </div>
-      <div class="container">
-      <h2>Pending</h2>
-        <table>
-         <tr>
-            <th>Inform</th>
-            <th>Completed?</th>
-        </tr>
-        <tr>
-            <td>Please let Target know John Smith is pickup up the order </td>
-            <td><label><input type="radio" name="optradio" id="complete_radio"></label></td>
-        </tr>
-
-        </table>
-    </div>
+     
 
     <div class="container">
         <h2>Delivery Report</h2>
