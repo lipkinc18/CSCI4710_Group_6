@@ -19,7 +19,7 @@ tr:nth-child(even) {
 }
 </style>
 
-<script src="/static/js/index.js"></script>
+<script src="/static/js/accept_page.js"></script>
 
 {% endblock%}
 
@@ -45,26 +45,24 @@ tr:nth-child(even) {
   <tr>
     <th>Store Name</th>
     <th>Pickup Time</th>
-    <th>Select</th>
   </tr>
   {% for pick in pickups %}
   <tr>
     <td> {{pick.store}} </td>
     <td> {{pick.status}} </td>
-    <td> <button class='submit'>Pick this Order</button> </td>
   </tr>
   {% endfor %}
 
   
 </table>
     </div>
-
+<center>
    <button type="button" id="display_button">Display all Pickups in the select list</button>
-    <button type="button" id="delete_button">Accept this Pickup</button>
+    <button type="button" id="select_buttom">Accept this Pickup</button>
      <div class="form-group">
     <label for="sel1">Select list:</label>
     <select class="form-control" id="sel1"> </select>
   </div> 
- 
+ </center>
 
 {% endblock %}

@@ -37,7 +37,7 @@ tr:nth-child(even) {
         <tr>
             <td>{{stat.order}} </td>
             <td>{{stat.store}}</td>
-            <td>Pending</td>
+            <td>{{stat.pickup_status}}</td>
         </tr>
         {% endfor %}
         </table>
@@ -55,7 +55,7 @@ tr:nth-child(even) {
         </tr>
         <tr>
             <td>Hardcode (4) </td>
-            <td>HardCode ($25)</td>
+            <td>$ {{payment.cash}}</td>
         </tr>
 
         </table>

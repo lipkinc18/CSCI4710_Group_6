@@ -14,16 +14,19 @@ $(document).ready(function(){
 		  for (var i = 0; i < total_len; i++){
 		  	dropdown.append('<option>'+js_obj['all_pickups'][i]['store']+'</option>');
 		  }
+		  
 		 
 		});
 	});
-	$('#delete_button').click(function(){
+	$('#select_buttom').click(function(){
 		$.ajax({
-			url: '/api/delete_user/'+$('#sel1').find(":selected").text(),
-			type: 'MY_DELETE',
+			url: '/accept_pickup/'+$('#sel1').find(":selected").text(),
+			type: 'MY_PICK',
 			success: function(log){
 				console.log(log);
 			}
 		});
 	});
+
 });
+

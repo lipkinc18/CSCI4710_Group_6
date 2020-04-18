@@ -39,7 +39,7 @@ class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     order = db.Column(db.Integer)
     store = db.Column(db.String(64))
-    pickup = db.Column(db.String(64))
+    pickup_status = db.Column(db.String(64))
     user_id = db.Column(db.Integer,db.ForeignKey('user.id'))
 
     def __repr__(self):
@@ -50,12 +50,12 @@ class Pickup(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     request = db.Column(db.Integer)
     store = db.Column(db.String(64))
-    status = db.Column(db.Integer)
+    status = db.Column(db.String(64))
     cash = db.Column(db.Integer)
     user_id = db.Column(db.Integer,db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return f"Pickup('{self.store},{self.request}','{self.status}')"
+        return f"Pickup('{self.store},{self.request}','{self.status}','{self.cash})"
 
 
 @app.route('/')
@@ -98,8 +98,8 @@ def login():
 def request():
     form= RequestPickupForm()
     if form.validate_on_submit():
-        orderRequest = Order(order= form.orderNum.data, store= form.storeName.data, pickup="Now", user_id=form.email.data)
-        pickup = Pickup(request= form.orderNum.data,store =form.storeName.data, status= 0, cash= 5,user_id=form.email.data )
+        orderRequest = Order(order= form.orderNum.data, store= form.storeName.data, pickup_status="Pending", user_id=form.email.data)
+        pickup = Pickup(request= form.orderNum.data,store =form.storeName.data, status= 'Pending', cash= 5,user_id=form.email.data )
         db.session.add(orderRequest)
         db.session.add(pickup)
         db.session.commit()
@@ -115,7 +115,9 @@ def accept():
 def status():
     status = Order.query.all()
     print(status)
-    return render_template('status.html', status=status)
+    payment= Pickup.query.all()
+    print(payment)
+    return render_template('status.html', status=status, payment=payment)
 
 
 @app.route('/get_pickup', methods=['GET'])
@@ -123,6 +125,13 @@ def get_pickup():
     print(Pickup.query.all())
     return util.parse_pickup(Pickup.query.all())
 
+@app.route('/accept_pickup/<selected_pick>',methods=['MY_PICK'])
+def accept_pick(selected_pick = ''):
+    Pickup.query.filter(Pickup.store==selected_pick).update(dict(status= 'Completed'))
+    Order.query.filter(Order.store==selected_pick).update(dict(pickup_status= 'Completed'))
+    db.session.commit()
+    print(Pickup.query.all())
+    return 'pickup completed'
 
 
 @app.route("/logout")
