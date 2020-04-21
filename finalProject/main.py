@@ -65,9 +65,16 @@ def index():
     db.create_all()
 
     admin = User(first_name = 'admin', last_name = 'admin', email = 'admin@admin.com', password = 'password')
+    lowes = Pickup(request = 4721, store = 'Lowes', status = 'Pending', cash = 5, user_id = 'admin@amin.com')
+    walmart = Pickup(request = 1274, store = 'Walmart', status = 'Pending', cash = 5, user_id = 'admin@amin.com')
+    target = Pickup(request = 2741, store = 'Target', status = 'Pending', cash = 5, user_id = 'admin@amin.com')
+    lo = Order(order = 4721, store = 'Lowes', pickup_status = 'Pending', user_id = 'admin@amin.com')
+    wa = Order(order = 1274, store = 'Walmart', pickup_status = 'Pending', user_id = 'admin@amin.com')
+    ta = Order(order = 2741, store = 'Target', pickup_status = 'Pending', user_id = 'admin@amin.com')
     db.session.add(admin)
+    db.session.add_all([lowes, walmart, target])
+    db.session.add_all([lo, wa, ta])
     db.session.commit()
-    print(User.query.all())
 
     log = 'homepage.'
     return render_template('index.html', log_index = log)
@@ -115,9 +122,10 @@ def accept():
 def status():
     status = Order.query.all()
     print(status)
-    payment= Pickup.query.all()
+    payment= 5
     print(payment)
-    return render_template('status.html', status=status, payment=payment)
+    completed = Pickup.query.filter_by(status = 'Completed').count()
+    return render_template('status.html', status=status, payment=payment, completed=completed)
 
 
 @app.route('/get_pickup', methods=['GET'])

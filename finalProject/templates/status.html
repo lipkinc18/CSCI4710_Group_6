@@ -44,7 +44,6 @@ tr:nth-child(even) {
 
 
     </div>
-     
 
     <div class="container">
         <h2>Delivery Report</h2>
@@ -54,8 +53,8 @@ tr:nth-child(even) {
             <th>Cash Earned</th>
         </tr>
         <tr>
-            <td>Hardcode (4) </td>
-            <td>$ {{payment.cash}}</td>
+            <td>{{ completed }}</td>
+            <td>$ {{ payment * completed }}</td>
         </tr>
 
         </table>
